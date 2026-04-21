@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
-#[Fillable(['category_id', 'user_id', 'title', 'slug', 'thumbnail', 'status'])]
+#[Fillable(['category_id', 'user_id', 'title', 'slug', 'content', 'thumbnail', 'status'])]
 class Post extends Model
 {
     protected function casts(): array
