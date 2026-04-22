@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Posts\Schemas;
 
+use App\Models\Tag;
 use App\PostStatus;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
@@ -33,6 +34,22 @@ class PostForm
                     ->searchable()
                     ->preload()
                     ->required(),
+                Select::make('tags')
+                    ->relationship('tags', 'name')
+                    ->multiple()
+                    ->searchable()
+                    ->preload()
+                    ->createOptionForm([
+                        TextInput::make('name')
+                            ->label('Tag name')
+                            ->required(),
+                    ])
+                    ->createOptionUsing(function (array $data) {
+                        return Tag::create(
+                            ['name' => $data['name']]
+                        )->id;
+                    }),
+
 
                 RichEditor::make('content')
                     ->label('Blog content')

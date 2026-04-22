@@ -16,6 +16,8 @@ use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
+use function Laravel\Prompts\text;
+
 class PostsTable
 {
     public static function configure(Table $table): Table
@@ -27,6 +29,9 @@ class PostsTable
                     ->sortable()
                     ->description(fn(Post $post): string => $post->slug),
                 TextColumn::make('category.name'),
+                TextColumn::make('tags')
+                    ->getStateUsing(fn(Post $post) => $post->tags->pluck('name')->join(', '))
+                    ->badge(),
                 // TextColumn::make('content')
                 //     ->limit(30)
                 //     ->html(),
