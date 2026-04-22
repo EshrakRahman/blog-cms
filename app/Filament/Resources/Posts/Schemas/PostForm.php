@@ -7,8 +7,10 @@ use App\PostStatus;
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\RichEditor;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Components\Group;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Components\Utilities\Set;
 use Filament\Schemas\Schema;
 use Illuminate\Support\Str;
@@ -66,7 +68,32 @@ class PostForm
                     ->directory('blog/thumbnail')
                     ->visibility('public'),
                 Select::make('status')
-                    ->options(PostStatus::class)
+                    ->options(PostStatus::class),
+
+                Section::make('SEO Metadata')
+                    ->description('Optimize how this post appears in search engines.')
+                    ->relationship('seo')
+                    ->schema([
+                        TextInput::make('meta_title')
+                            ->label('Title Tag')
+                            ->placeholder('Target keyword - Brand Name')
+                            ->maxLength(60),
+
+                        Textarea::make('meta_description')
+                            ->label('Meta Description')
+                            ->rows(3)
+                            ->placeholder('A brief summary for Google search results...')
+                            ->maxLength(160),
+
+                        FileUpload::make('meta_image')
+                            ->label('Social Share Image')
+                            ->image()
+                            ->directory('seo-images')
+                            ->disk('public'),
+                    ])
+                    ->collapsible()
+                    ->columnSpanFull()
+                    ->collapsed(),
 
             ]);
     }

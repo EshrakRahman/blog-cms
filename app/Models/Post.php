@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 
 #[Fillable(['category_id', 'user_id', 'title', 'slug', 'content', 'thumbnail', 'status'])]
 class Post extends Model
@@ -26,5 +27,10 @@ class Post extends Model
     public function tags(): BelongsToMany
     {
         return $this->belongsToMany(Tag::class);
+    }
+
+    public function seo(): HasOne
+    {
+        return $this->hasOne(PostSeo::class);
     }
 }
